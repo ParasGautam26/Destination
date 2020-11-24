@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,15 +17,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> implements Filterable {
     private Context context;
     private List<MainViewModel> myList;
+    private List<MainViewModel> myListFull;
 
     public MyAdapter(Context context, List<MainViewModel> myList) {
         this.context = context;
         this.myList = myList;
+        myListFull = new ArrayList<>(myList);
     }
 
     @NonNull
@@ -36,14 +41,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
             MainViewModel mainViewModel = myList.get(position);
-            holder.mprofile.setText(mainViewModel.profile);
-            holder.mcompany.setText(mainViewModel.name);
-        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(context)
-                .load(mainViewModel.thumb)
-                .apply(requestOptions)
-                .into(holder.mImageView);
+
+                holder.mprofile.setText(mainViewModel.profile);
+                holder.mcompany.setText(mainViewModel.name);
+                RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+                Glide.with(context)
+                        .load(mainViewModel.thumb)
+                        .apply(requestOptions)
+                        .into(holder.mImageView);
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -76,6 +84,35 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
 
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<MainViewModel> filteredList = new ArrayList<>();
+            if(charSequence==null || charSequence.length()==0){
+                filteredList.addAll(myListFull);
+            }
+            else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for(MainViewModel item:myListFull){
+                    if(item.name.toLowerCase().contains(filterPattern) || item.profile.toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults res = new FilterResults();
+            res.values=filteredList;
+            return res;
+        }
 
-
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            myList.clear();
+            myList.addAll((List)filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 }
