@@ -1,50 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
+    android:layout_marginTop="2dp"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile      :"
-                android:textSize="20sp"
-                android:paddingBottom="8dp"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/company"
-                android:textSize="20sp"
-                android:paddingBottom="10dp"></TextView>
-        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+            android:contentDescription="TODO" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="125dp"
-            android:paddingTop="11dp">
+            android:layout_marginLeft="90dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
             <TextView
                 android:id="@+id/profile_name"
-                android:layout_width="280dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:text="asdfadfadsf"
                 android:textSize="16sp"
-                android:paddingBottom="14dp"/>
+                android:paddingBottom="7dp"/>
             <TextView
                 android:id="@+id/company_name"
-                android:layout_width="280dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:text="asdSafadsfadsfFADf"/>

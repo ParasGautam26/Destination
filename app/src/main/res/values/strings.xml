@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Destination</string>
-
     <string name="company">Company :</string>
+    <string name="name">Company name</string>
+    <string name="profile_names">Job Profile</string>
+    <string name="salary">Stipend</string>
+    <string name="click_to_apply">Click here to apply</string>
 </resources>

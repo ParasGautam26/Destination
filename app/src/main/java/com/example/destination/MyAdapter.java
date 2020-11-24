@@ -1,0 +1,81 @@
+package com.example.destination;
+
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.List;
+
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private Context context;
+    private List<MainViewModel> myList;
+
+    public MyAdapter(Context context, List<MainViewModel> myList) {
+        this.context = context;
+        this.myList = myList;
+    }
+
+    @NonNull
+    @Override
+    public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recylclerview_main,parent,false);
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
+            MainViewModel mainViewModel = myList.get(position);
+            holder.mprofile.setText(mainViewModel.profile);
+            holder.mcompany.setText(mainViewModel.name);
+        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(context)
+                .load(mainViewModel.thumb)
+                .apply(requestOptions)
+                .into(holder.mImageView);
+    }
+
+    @Override
+    public int getItemCount() {
+        return myList.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView mprofile;
+        TextView mcompany;
+        ImageView mImageView;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mprofile = itemView.findViewById(R.id.profile_name);
+            mcompany = itemView.findViewById(R.id.company_name);
+            mImageView = itemView.findViewById(R.id.imageview);
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            int p = getAdapterPosition();
+            MainViewModel mainViewModel = myList.get(p);
+            Intent intent = new Intent(context,JobDetails.class);
+            intent.putExtra("name",mainViewModel.name);
+            intent.putExtra("link",mainViewModel.link);
+            intent.putExtra("desc",mainViewModel.desc);
+            intent.putExtra("profile",mainViewModel.profile);
+            intent.putExtra("thumb",mainViewModel.thumb);
+            context.startActivity(intent);
+        }
+    }
+
+
+
+
+}
